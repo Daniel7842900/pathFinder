@@ -3,9 +3,15 @@ import React, { Component } from "react";
 import "./Node.css";
 
 class Node extends Component {
-  state = {};
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
   render() {
-    return <div className="node"></div>;
+    const { isStart, isEnd } = this.props;
+    const startEndNode = isEnd ? "node-end" : isStart ? "node-start" : "";
+    console.log(startEndNode);
+    return <div className={`node ${startEndNode}`}></div>;
   }
 }
 
