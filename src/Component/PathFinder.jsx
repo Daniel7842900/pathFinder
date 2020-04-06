@@ -7,29 +7,13 @@ class PathFinder extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      grid: []
+      grid: [],
     };
   }
 
   componentDidMount() {
     console.log("entering componentDidMount");
-    const grid = [];
-    for (let row = 0; row < 15; row++) {
-      const gridRow = [];
-      for (let col = 0; col < 30; col++) {
-        //creating a node object.
-        const currentNode = {
-          row,
-          col,
-          isStart: row === 7 && col === 9,
-          isEnd: row === 7 && col === 20
-        };
-        gridRow.push(currentNode);
-      }
-      grid.push(gridRow);
-    }
-    //the scope of this grid is inside of this function.
-    //setState makes render() be called agian.
+    const grid = createGrid();
     this.setState({ grid });
   }
 
@@ -64,5 +48,32 @@ class PathFinder extends Component {
     );
   }
 }
+
+const createGrid = () => {
+  const grid = [];
+  for (let row = 0; row < 15; row++) {
+    const gridRow = [];
+    for (let col = 0; col < 30; col++) {
+      gridRow.push(createNodeObject(row, col));
+    }
+    grid.push(gridRow);
+  }
+  //the scope of this grid is inside of this function.
+  //setState makes render() be called agian.
+  //this.setState({ grid });
+  return grid;
+};
+
+const createNodeObject = (row, col) => {
+  //creating a node object.
+  console.log("creating a node object");
+  return {
+    row,
+    col,
+    isStart: row === 7 && col === 9,
+    isEnd: row === 7 && col === 20,
+    isVisited: false,
+  };
+};
 
 export default PathFinder;
