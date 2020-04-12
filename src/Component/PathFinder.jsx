@@ -1,7 +1,13 @@
 import React, { Component } from "react";
 import Node from "./Node/Node";
+import { dijkstra } from "./Algorithm/Dijkstra";
 
 import "./PathFinder.css";
+
+const startNodeRow = 7;
+const startNodeCol = 9;
+const endNodeRow = 7;
+const endNodeCol = 20;
 
 class PathFinder extends Component {
   constructor(props) {
@@ -9,6 +15,14 @@ class PathFinder extends Component {
     this.state = {
       grid: [],
     };
+  }
+
+  visualizeAlgorithm() {
+    const { grid } = this.state;
+    const startNode = grid[startNodeRow][startNodeCol];
+    const endNode = grid[endNodeRow][endNodeCol];
+    const visitedNodesInOrder = dijkstra(grid, startNode);
+    //console.log(visitedNodesInOrder);
   }
 
   componentDidMount() {
@@ -31,20 +45,23 @@ class PathFinder extends Component {
     console.log(grid);
 
     return (
-      <div className="grid">
-        {grid.map((row, rowIdx) => {
-          return (
-            <div key={rowIdx}>
-              {row.map((node, nodeIdx) => {
-                const { isStart, isEnd } = node;
-                return (
-                  <Node key={nodeIdx} isStart={isStart} isEnd={isEnd}></Node>
-                );
-              })}
-            </div>
-          );
-        })}
-      </div>
+      <>
+        <button onClick={() => this.visualizeAlgorithm()}>Dijkstra</button>
+        <div className="grid">
+          {grid.map((row, rowIdx) => {
+            return (
+              <div key={rowIdx}>
+                {row.map((node, nodeIdx) => {
+                  const { isStart, isEnd } = node;
+                  return (
+                    <Node key={nodeIdx} isStart={isStart} isEnd={isEnd}></Node>
+                  );
+                })}
+              </div>
+            );
+          })}
+        </div>
+      </>
     );
   }
 }
@@ -73,6 +90,9 @@ const createNodeObject = (row, col) => {
     isStart: row === 7 && col === 9,
     isEnd: row === 7 && col === 20,
     isVisited: false,
+    distance: Infinity,
+    neighborNodes: [],
+    previousNode: null,
   };
 };
 
