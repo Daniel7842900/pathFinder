@@ -21,8 +21,9 @@ class PathFinder extends Component {
     const { grid } = this.state;
     const startNode = grid[startNodeRow][startNodeCol];
     const endNode = grid[endNodeRow][endNodeCol];
-    const visitedNodesInOrder = dijkstra(grid, startNode, endNode);
-    //console.log(visitedNodesInOrder);
+    const visitedNodes = dijkstra(grid, startNode, endNode);
+    console.log("this is visited nodes.");
+    //console.log(visitedNodes);
   }
 
   componentDidMount() {
