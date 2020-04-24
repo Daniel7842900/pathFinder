@@ -5,7 +5,7 @@
 //step 5. pick any of neighboring nodes and then repeat the process. at this point, neighboring nodes are 2.
 //step 6. move to any unvisited neighboring node.
 
-import PriorityQueue from "../DataStructure/PriorityQueue";
+/*import PriorityQueue from "../DataStructure/PriorityQueue";
 
 export function dijkstra(grid, startNode, endNode) {
   let pq = new PriorityQueue();
@@ -16,7 +16,7 @@ export function dijkstra(grid, startNode, endNode) {
   startNode.isVisited = true;
   console.log("this is start node");
   console.log(startNode);
-  pq.enqueue(startNode, 0);
+  pq.enqueue(startNode, startNode.distance);
   console.log("this is pq");
   console.log(pq);
 
@@ -45,13 +45,50 @@ export function dijkstra(grid, startNode, endNode) {
   console.log(backTrace);
   return { backTrace };
 
-  // let path = [endNode];
-  // let lastStep = endNode;
+  let path = [endNode];
+  let lastStep = endNode;
 
-  // while (lastStep !== startNode) {
-  //   path.unshift(backTrace[lastStep]);
-  //   lastStep = backTrace[lastStep];
-  // }
+  while (lastStep !== startNode) {
+    path.unshift(backTrace[lastStep]);
+    lastStep = backTrace[lastStep];
+  }
+}*/
+
+export function dijkstra(grid, startNode, endNode) {
+  const visitedNodes = [];
+
+  if (!startNode || !endNode || startNode === endNode) {
+    return false;
+  }
+
+  startNode.distance = 0;
+  const unvisitedNodes = getAllNodes(grid);
+
+  console.log("this is unvisited nodes.");
+  console.log(unvisitedNodes);
+
+  // !! makes sure that it's boolean value. 0 falsy, other numbers truthy.
+  // so if the length is not 0, keep go into the loop.
+  while (!!unvisitedNodes.length) {
+    sortNodes(unvisitedNodes);
+    const closestNode = unvisitedNodes.shift();
+  }
+}
+
+function sortNodes(unvisitedNodes) {
+  unvisitedNodes.sort((nodeA, nodeB) => nodeA.distance - nodeB.distance);
+}
+
+function getAllNodes(grid) {
+  const allNodes = [];
+
+  for (const row of grid) {
+    for (const col of row) {
+      allNodes.push(col);
+    }
+  }
+
+  return allNodes;
 }
 
 function updateDistance(node, grid) {
@@ -86,8 +123,4 @@ function getUnvisitedNeighborNodes(node, grid) {
   console.log("is this empty?");
   console.log(neighborNodes);
   return neighborNodes.filter((neighbor) => !neighbor.isVisited);
-}
-
-function getKey() {
-  return this;
 }
