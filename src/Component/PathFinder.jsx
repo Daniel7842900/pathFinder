@@ -17,19 +17,54 @@ class PathFinder extends Component {
     };
   }
 
+  animateDijkstra(visitedNodes) {
+    // console.log(
+    //   "this is grid after dijkstra and beginning of animate dijkstra"
+    // );
+    // const newGrid2 = this.state.grid.slice();
+    // console.log(newGrid2);
+    for (let i = 0; i < visitedNodes.length; i++) {
+      setTimeout(() => {
+        const node = visitedNodes[i];
+        document.getElementById(`node-${node.row}-${node.col}`).className =
+          "node node-visited";
+      }, 30 * i);
+      //   setTimeout(() => {
+      //     const node = visitedNodes[i];
+      //     //const newGrid = this.state.grid.slice();
+      //     // const newNode = {
+      //     //   ...node,
+      //     //   isVisited: true,
+      //     // };
+      //     //newGrid[node.row][node.col] = newNode;
+      //     this.setState({ grid: newGrid });
+      //   }, 3000 * i);
+    }
+  }
+
   visualizeAlgorithm() {
     const { grid } = this.state;
     const startNode = grid[startNodeRow][startNodeCol];
     const endNode = grid[endNodeRow][endNodeCol];
+    // console.log("this is grid");
+    // console.log({ grid });
     const visitedNodes = dijkstra(grid, startNode, endNode);
-    console.log("this is visited nodes.");
-    //console.log(visitedNodes);
+    // console.log("this is grid after dijkstra");
+    // console.log({ grid });
+    console.log("this is VisitedNodes");
+    console.log(visitedNodes);
+    // console.log("this is visited nodes.");
+    // console.log(visitedNodes);
+    this.animateDijkstra(visitedNodes);
   }
 
   componentDidMount() {
     console.log("entering componentDidMount");
     const grid = createGrid();
     this.setState({ grid });
+    console.log("this is grid");
+    console.log({ grid });
+    console.log("exiting compoenentDidMount");
   }
 
   render() {
@@ -40,10 +75,13 @@ class PathFinder extends Component {
     // grid value and put it in this variable.
     const { grid } = this.state;
     console.log("entering the render()");
+    // debugger;
+    // console.log("this is grid");
+    // console.log({ grid });
 
     //console.log({grid}) prints out {grid} as an object.
     //console.log(grid) prints out grid as an array.
-    console.log(grid);
+    //console.log(grid);
 
     return (
       <>
@@ -53,9 +91,16 @@ class PathFinder extends Component {
             return (
               <div key={rowIdx}>
                 {row.map((node, nodeIdx) => {
-                  const { isStart, isEnd } = node;
+                  const { row, col, isStart, isEnd, isVisited } = node;
                   return (
-                    <Node key={nodeIdx} isStart={isStart} isEnd={isEnd}></Node>
+                    <Node
+                      key={nodeIdx}
+                      row={row}
+                      col={col}
+                      isStart={isStart}
+                      isEnd={isEnd}
+                      isVisited={isVisited}
+                    ></Node>
                   );
                 })}
               </div>
@@ -84,7 +129,7 @@ const createGrid = () => {
 
 const createNodeObject = (row, col) => {
   //creating a node object.
-  console.log("creating a node object");
+  //console.log("creating a node object");
   return {
     row,
     col,

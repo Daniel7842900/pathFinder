@@ -75,8 +75,8 @@ export function dijkstra(grid, startNode, endNode) {
     // console.log("this is the first unvisited node.");
     // console.log(unvisitedNodes[0]);
     const closestNode = unvisitedNodes.shift();
-    console.log("This is the closest Node");
-    console.log(closestNode);
+    // console.log("This is the closest Node");
+    // console.log(closestNode);
 
     closestNode.isVisited = true;
 
@@ -110,15 +110,15 @@ function getAllNodes(grid) {
 function updateDistance(node, grid) {
   const distanceArray = getUnvisitedNeighborNodes(node, grid);
   //debugger;
-  console.log("this is distance Array");
-  console.log(distanceArray);
+  // console.log("this is distance Array");
+  // console.log(distanceArray);
 
   for (const neighbor of distanceArray) {
     //1 can be the weight of edges. we are using 1 because the weight of edge is 1.
     neighbor.distance = node.distance + 1;
     neighbor.previousNode = node;
-    console.log("this is one of neighbors");
-    console.log(neighbor);
+    // console.log("this is one of neighbors");
+    // console.log(neighbor);
   }
 
   return distanceArray;
@@ -148,7 +148,7 @@ function getUnvisitedNeighborNodes(node, grid) {
   unvisitedNeighborNodes = neighborNodes.filter(
     (neighbor) => neighbor.isVisited === false
   );
-  console.log("unvisited neighbor nodes.");
-  console.log(unvisitedNeighborNodes);
+  // console.log("unvisited neighbor nodes.");
+  // console.log(unvisitedNeighborNodes);
   return unvisitedNeighborNodes;
 }

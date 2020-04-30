@@ -12,3 +12,7 @@
 .node-end {
   background-color: green;
 }
+
+.node-visited {
+  background-color: blue;
+}

@@ -8,10 +8,18 @@ class Node extends Component {
     this.state = {};
   }
   render() {
-    const { isStart, isEnd } = this.props;
-    const startEndNode = isEnd ? "node-end" : isStart ? "node-start" : "";
+    const { row, col, isStart, isEnd, isVisited } = this.props;
+    const startEndNode = isEnd
+      ? "node-end"
+      : isStart
+      ? "node-start"
+      : isVisited
+      ? "node-visited"
+      : "";
     console.log(startEndNode);
-    return <div className={`node ${startEndNode}`}></div>;
+    return (
+      <div id={`node-${row}-${col}`} className={`node ${startEndNode}`}></div>
+    );
   }
 }
 
