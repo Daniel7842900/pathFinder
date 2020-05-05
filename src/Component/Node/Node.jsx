@@ -26,7 +26,7 @@ class Node extends Component {
       : isWall
       ? "node-wall"
       : "";
-    console.log(startEndNode);
+    //console.log(startEndNode);
     return (
       <div
         id={`node-${row}-${col}`}

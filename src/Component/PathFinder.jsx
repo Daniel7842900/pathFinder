@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Node from "./Node/Node";
-import { dijkstra } from "./Algorithm/Dijkstra";
+import { dijkstra, getShortestRoute } from "./Algorithm/Dijkstra";
 
 import "./PathFinder.css";
 
@@ -38,13 +38,25 @@ class PathFinder extends Component {
     this.state.mouseIsPressed = false;
   }
 
-  animateDijkstra(visitedNodes) {
+  animateDijkstra(visitedNodes, shortestRoute) {
     // console.log(
     //   "this is grid after dijkstra and beginning of animate dijkstra"
     // );
     // const newGrid2 = this.state.grid.slice();
     // console.log(newGrid2);
-    for (let i = 0; i < visitedNodes.length; i++) {
+    // console.log("this is visitednodes length");
+    // console.log(visitedNodes.length);
+    for (let i = 0; i <= visitedNodes.length; i++) {
+      if (i === visitedNodes.length) {
+        //we need this setTimeout because we need to maually set the time
+        //after node-visited setTimeout. So we are setting the last part with
+        //this setTimeout.
+        setTimeout(() => {
+          this.animateShortestRoute(shortestRoute);
+        }, 30 * i);
+        return;
+      }
+
       setTimeout(() => {
         const node = visitedNodes[i];
         document.getElementById(`node-${node.row}-${node.col}`).className =
@@ -63,6 +75,17 @@ class PathFinder extends Component {
     }
   }
 
+  //This is the function that actually animates the line.
+  animateShortestRoute(shortestRoute) {
+    for (let i = 0; i < shortestRoute.length; i++) {
+      setTimeout(() => {
+        const node = shortestRoute[i];
+        document.getElementById(`node-${node.row}-${node.col}`).className =
+          "node node-shortest";
+      }, 40 * i);
+    }
+  }
+
   visualizeAlgorithm() {
     const { grid } = this.state;
     const startNode = grid[startNodeRow][startNodeCol];
@@ -70,13 +93,14 @@ class PathFinder extends Component {
     // console.log("this is grid");
     // console.log({ grid });
     const visitedNodes = dijkstra(grid, startNode, endNode);
+    const shortestRoute = getShortestRoute(endNode);
     // console.log("this is grid after dijkstra");
     // console.log({ grid });
     console.log("this is VisitedNodes");
     console.log(visitedNodes);
     // console.log("this is visited nodes.");
     // console.log(visitedNodes);
-    this.animateDijkstra(visitedNodes);
+    this.animateDijkstra(visitedNodes, shortestRoute);
   }
 
   componentDidMount() {

@@ -162,3 +162,13 @@ function getUnvisitedNeighborNodes(node, grid) {
   // console.log(unvisitedNeighborNodes);
   return unvisitedNeighborNodes;
 }
+
+export function getShortestRoute(endNode) {
+  const shortestRouteInOrder = [];
+  let currentNode = endNode;
+  while (currentNode != null) {
+    shortestRouteInOrder.unshift(currentNode);
+    currentNode = currentNode.previousNode;
+  }
+  return shortestRouteInOrder;
+}
