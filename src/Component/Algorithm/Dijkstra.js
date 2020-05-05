@@ -64,16 +64,11 @@ export function dijkstra(grid, startNode, endNode) {
   startNode.distance = 0;
   const unvisitedNodes = getAllNodes(grid);
 
-  // console.log("this is unvisited nodes.");
-  // console.log(unvisitedNodes);
-
   // !! makes sure that it's boolean value. 0 falsy, other numbers truthy.
   // so if the length is not 0, keep go into the loop.
   while (!!unvisitedNodes.length) {
-    //debugger;
     sortNodes(unvisitedNodes);
-    // console.log("this is the first unvisited node.");
-    // console.log(unvisitedNodes[0]);
+
     const closestNode = unvisitedNodes.shift();
 
     //If there is a wall, we skip it.(move to another node again.)
@@ -85,8 +80,6 @@ export function dijkstra(grid, startNode, endNode) {
     if (closestNode.distance === Infinity) {
       return visitedNodes;
     }
-    // console.log("This is the closest Node");
-    // console.log(closestNode);
 
     closestNode.isVisited = true;
 
@@ -119,28 +112,21 @@ function getAllNodes(grid) {
 
 function updateDistance(node, grid) {
   const distanceArray = getUnvisitedNeighborNodes(node, grid);
-  //debugger;
-  // console.log("this is distance Array");
-  // console.log(distanceArray);
 
   for (const neighbor of distanceArray) {
     //1 can be the weight of edges. we are using 1 because the weight of edge is 1.
     neighbor.distance = node.distance + 1;
     neighbor.previousNode = node;
-    // console.log("this is one of neighbors");
-    // console.log(neighbor);
   }
 
   return distanceArray;
 }
 
 function getUnvisitedNeighborNodes(node, grid) {
-  //console.log("this is neighborNodes");
-
   const neighborNodes = [];
   var unvisitedNeighborNodes = [];
   const { row, col } = node;
-  //console.log(node);
+
   if (row > 0) {
     neighborNodes.push(grid[row - 1][col]);
   }
@@ -153,13 +139,11 @@ function getUnvisitedNeighborNodes(node, grid) {
   if (col < grid[0].length - 1) {
     neighborNodes.push(grid[row][col + 1]);
   }
-  // console.log("is this empty?");
-  // console.log(neighborNodes);
+
   unvisitedNeighborNodes = neighborNodes.filter(
     (neighbor) => neighbor.isVisited === false
   );
-  // console.log("unvisited neighbor nodes.");
-  // console.log(unvisitedNeighborNodes);
+
   return unvisitedNeighborNodes;
 }
 

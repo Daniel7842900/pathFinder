@@ -39,13 +39,6 @@ class PathFinder extends Component {
   }
 
   animateDijkstra(visitedNodes, shortestRoute) {
-    // console.log(
-    //   "this is grid after dijkstra and beginning of animate dijkstra"
-    // );
-    // const newGrid2 = this.state.grid.slice();
-    // console.log(newGrid2);
-    // console.log("this is visitednodes length");
-    // console.log(visitedNodes.length);
     for (let i = 0; i <= visitedNodes.length; i++) {
       if (i === visitedNodes.length) {
         //we need this setTimeout because we need to maually set the time
@@ -62,16 +55,6 @@ class PathFinder extends Component {
         document.getElementById(`node-${node.row}-${node.col}`).className =
           "node node-visited";
       }, 30 * i);
-      // setTimeout(() => {
-      //   const node = visitedNodes[i];
-      //   const newGrid = this.state.grid.slice();
-      //   const newNode = {
-      //     ...node,
-      //     isVisited: true,
-      //   };
-      //   newGrid[node.row][node.col] = newNode;
-      //   this.setState({ grid: newGrid });
-      // }, 3000 * i);
     }
   }
 
@@ -90,26 +73,14 @@ class PathFinder extends Component {
     const { grid } = this.state;
     const startNode = grid[startNodeRow][startNodeCol];
     const endNode = grid[endNodeRow][endNodeCol];
-    // console.log("this is grid");
-    // console.log({ grid });
     const visitedNodes = dijkstra(grid, startNode, endNode);
     const shortestRoute = getShortestRoute(endNode);
-    // console.log("this is grid after dijkstra");
-    // console.log({ grid });
-    console.log("this is VisitedNodes");
-    console.log(visitedNodes);
-    // console.log("this is visited nodes.");
-    // console.log(visitedNodes);
     this.animateDijkstra(visitedNodes, shortestRoute);
   }
 
   componentDidMount() {
-    console.log("entering componentDidMount");
     const grid = createGrid();
     this.setState({ grid });
-    console.log("this is grid");
-    console.log({ grid });
-    console.log("exiting compoenentDidMount");
   }
 
   render() {
@@ -120,14 +91,10 @@ class PathFinder extends Component {
     // grid value and put it in this variable.
     const { grid } = this.state;
     console.log("entering the render()");
-    // debugger;
-    // console.log("this is grid");
-    // console.log({ grid });
 
     //console.log({grid}) prints out {grid} as an object.
     //console.log(grid) prints out grid as an array.
     //console.log(grid);
-
     return (
       <>
         <button onClick={() => this.visualizeAlgorithm()}>Dijkstra</button>
@@ -180,7 +147,6 @@ const createGrid = () => {
 
 const createNodeObject = (row, col) => {
   //creating a node object.
-  //console.log("creating a node object");
   return {
     row,
     col,
