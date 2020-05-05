@@ -8,17 +8,29 @@ class Node extends Component {
     this.state = {};
   }
   render() {
-    const { row, col, isStart, isEnd, isVisited } = this.props;
+    const {
+      row,
+      col,
+      isStart,
+      isEnd,
+      isVisited,
+      isWall,
+      onMouseDown,
+    } = this.props;
     const startEndNode = isEnd
       ? "node-end"
       : isStart
       ? "node-start"
-      : isVisited
-      ? "node-visited"
+      : isWall
+      ? "node-wall"
       : "";
     console.log(startEndNode);
     return (
-      <div id={`node-${row}-${col}`} className={`node ${startEndNode}`}></div>
+      <div
+        id={`node-${row}-${col}`}
+        className={`node ${startEndNode}`}
+        onMouseDown={() => onMouseDown(row, col)}
+      ></div>
     );
   }
 }

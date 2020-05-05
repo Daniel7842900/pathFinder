@@ -75,6 +75,9 @@ export function dijkstra(grid, startNode, endNode) {
     // console.log("this is the first unvisited node.");
     // console.log(unvisitedNodes[0]);
     const closestNode = unvisitedNodes.shift();
+    // if (closestNode.isWall === true) {
+    //   continue;
+    // }
     // console.log("This is the closest Node");
     // console.log(closestNode);
 

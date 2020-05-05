@@ -14,7 +14,14 @@ class PathFinder extends Component {
     super(props);
     this.state = {
       grid: [],
+      mouseIsPressed: false,
     };
+  }
+
+  handleMouseDown(row, col) {
+    const newGrid = getNewGridWall(this.state.grid, row, col);
+    console.log("entering handle mouse down.");
+    this.setState({ grid: newGrid, mouseIsPressed: true });
   }
 
   animateDijkstra(visitedNodes) {
@@ -29,16 +36,16 @@ class PathFinder extends Component {
         document.getElementById(`node-${node.row}-${node.col}`).className =
           "node node-visited";
       }, 30 * i);
-      //   setTimeout(() => {
-      //     const node = visitedNodes[i];
-      //     //const newGrid = this.state.grid.slice();
-      //     // const newNode = {
-      //     //   ...node,
-      //     //   isVisited: true,
-      //     // };
-      //     //newGrid[node.row][node.col] = newNode;
-      //     this.setState({ grid: newGrid });
-      //   }, 3000 * i);
+      // setTimeout(() => {
+      //   const node = visitedNodes[i];
+      //   const newGrid = this.state.grid.slice();
+      //   const newNode = {
+      //     ...node,
+      //     isVisited: true,
+      //   };
+      //   newGrid[node.row][node.col] = newNode;
+      //   this.setState({ grid: newGrid });
+      // }, 3000 * i);
     }
   }
 
@@ -91,7 +98,7 @@ class PathFinder extends Component {
             return (
               <div key={rowIdx}>
                 {row.map((node, nodeIdx) => {
-                  const { row, col, isStart, isEnd, isVisited } = node;
+                  const { row, col, isStart, isEnd, isVisited, isWall } = node;
                   return (
                     <Node
                       key={nodeIdx}
@@ -100,6 +107,8 @@ class PathFinder extends Component {
                       isStart={isStart}
                       isEnd={isEnd}
                       isVisited={isVisited}
+                      isWall={isWall}
+                      onMouseDown={(row, col) => this.handleMouseDown(row, col)}
                     ></Node>
                   );
                 })}
@@ -136,10 +145,22 @@ const createNodeObject = (row, col) => {
     isStart: row === 7 && col === 9,
     isEnd: row === 7 && col === 20,
     isVisited: false,
+    isWall: false,
     distance: Infinity,
     neighborNodes: [],
     previousNode: null,
   };
+};
+
+const getNewGridWall = (grid, row, col) => {
+  const newGrid = grid.slice();
+  const node = newGrid[row][col];
+  const newNode = {
+    ...node,
+    isWall: !node.isWall,
+  };
+  newGrid[row][col] = newNode;
+  return newGrid;
 };
 
 export default PathFinder;
