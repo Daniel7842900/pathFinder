@@ -16,6 +16,8 @@ class Node extends Component {
       isVisited,
       isWall,
       onMouseDown,
+      onMouseEnter,
+      onMouseUp,
     } = this.props;
     const startEndNode = isEnd
       ? "node-end"
@@ -30,6 +32,8 @@ class Node extends Component {
         id={`node-${row}-${col}`}
         className={`node ${startEndNode}`}
         onMouseDown={() => onMouseDown(row, col)}
+        onMouseEnter={() => onMouseEnter(row, col)}
+        onMouseUp={() => onMouseUp(row, col)}
       ></div>
     );
   }

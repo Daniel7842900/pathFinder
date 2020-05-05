@@ -24,6 +24,20 @@ class PathFinder extends Component {
     this.setState({ grid: newGrid, mouseIsPressed: true });
   }
 
+  handleMouseEnter(row, col) {
+    if (!this.state.mouseIsPressed) {
+      return;
+    }
+    const newGrid = getNewGridWall(this.state.grid, row, col);
+    console.log("entering handle mouse enter");
+    this.setState({ grid: newGrid });
+  }
+
+  handleMouseUp(row, col) {
+    console.log("entering handle mouse up");
+    this.state.mouseIsPressed = false;
+  }
+
   animateDijkstra(visitedNodes) {
     // console.log(
     //   "this is grid after dijkstra and beginning of animate dijkstra"
@@ -109,6 +123,10 @@ class PathFinder extends Component {
                       isVisited={isVisited}
                       isWall={isWall}
                       onMouseDown={(row, col) => this.handleMouseDown(row, col)}
+                      onMouseEnter={(row, col) =>
+                        this.handleMouseEnter(row, col)
+                      }
+                      onMouseUp={(row, col) => this.handleMouseUp(row, col)}
                     ></Node>
                   );
                 })}
