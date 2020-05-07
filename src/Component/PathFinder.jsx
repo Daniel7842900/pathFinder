@@ -1,13 +1,15 @@
 import React, { Component } from "react";
 import Node from "./Node/Node";
+import "bootstrap/dist/css/bootstrap.min.css";
 import { dijkstra, getShortestRoute } from "./Algorithm/Dijkstra";
+import { Navbar, Nav, NavDropdown, Button } from "react-bootstrap";
 
 import "./PathFinder.css";
 
-const startNodeRow = 7;
-const startNodeCol = 9;
-const endNodeRow = 7;
-const endNodeCol = 20;
+const STARTNODEROW = 7;
+const STARTNODECOL = 9;
+const ENDNODEROW = 7;
+const ENDNODECOL = 20;
 
 class PathFinder extends Component {
   constructor(props) {
@@ -71,8 +73,8 @@ class PathFinder extends Component {
 
   visualizeAlgorithm() {
     const { grid } = this.state;
-    const startNode = grid[startNodeRow][startNodeCol];
-    const endNode = grid[endNodeRow][endNodeCol];
+    const startNode = grid[STARTNODEROW][STARTNODECOL];
+    const endNode = grid[ENDNODEROW][ENDNODECOL];
     const visitedNodes = dijkstra(grid, startNode, endNode);
     const shortestRoute = getShortestRoute(endNode);
     this.animateDijkstra(visitedNodes, shortestRoute);
@@ -80,6 +82,29 @@ class PathFinder extends Component {
 
   componentDidMount() {
     const grid = createGrid();
+    this.setState({ grid });
+  }
+
+  resetGrid() {
+    const grid = createGrid();
+    for (let row = 0; row < 15; row++) {
+      const gridRow = [];
+      for (let col = 0; col < 30; col++) {
+        gridRow.push(createNodeObject(row, col));
+        const node = grid[row][col];
+        if (row === STARTNODEROW && col === STARTNODECOL) {
+          document.getElementById(`node-${node.row}-${node.col}`).className =
+            "node node-start";
+        } else if (row === ENDNODEROW && col === ENDNODECOL) {
+          document.getElementById(`node-${node.row}-${node.col}`).className =
+            "node node-end";
+        } else {
+          document.getElementById(`node-${node.row}-${node.col}`).className =
+            "node";
+        }
+      }
+      grid.push(gridRow);
+    }
     this.setState({ grid });
   }
 
@@ -97,7 +122,42 @@ class PathFinder extends Component {
     //console.log(grid);
     return (
       <>
-        <button onClick={() => this.visualizeAlgorithm()}>Dijkstra</button>
+        <Navbar bg="light" expand="md">
+          <Navbar.Brand href="#home">PathFinder</Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="mr-auto ml-auto">
+              <NavDropdown title="Algorithms" id="basic-nav-dropdown">
+                <NavDropdown.Item href="#action/3.1">Dijkstra</NavDropdown.Item>
+              </NavDropdown>
+              <Button
+                className="btn-margin-left btn-margin-right"
+                variant="outline-success"
+                onClick={() => this.visualizeAlgorithm()}
+              >
+                Start!
+              </Button>
+              <Button
+                className="btn-margin-left btn-margin-right"
+                variant="outline-success"
+                onClick={() => this.resetGrid()}
+              >
+                Clear Board
+              </Button>
+              <Button
+                className="btn-margin-left btn-margin-right"
+                variant="outline-success"
+              >
+                Clear wall
+              </Button>
+              <NavDropdown title="Speed" id="basic-nav-dropdown">
+                <NavDropdown.Item href="#action/3.1">Fast</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.2">Normal</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.3">Slow</NavDropdown.Item>
+              </NavDropdown>
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
         <div className="grid">
           {grid.map((row, rowIdx) => {
             return (
@@ -163,11 +223,20 @@ const createNodeObject = (row, col) => {
 const getNewGridWall = (grid, row, col) => {
   const newGrid = grid.slice();
   const node = newGrid[row][col];
+  // var img = require(`./icons/walls.png`);
+  // img.setAttribute(
+  //   "src",
+  //   "/Users/daniellim/Desktop/daniel/my-app/src/Component/icons/brickwall.png"
+  // );
   const newNode = {
     ...node,
     isWall: !node.isWall,
   };
+  // document
+  //   .getElementById(`node-${newNode.row}-${newNode.col}`)
+  //   .appendChild(img);
   newGrid[row][col] = newNode;
+
   return newGrid;
 };
 

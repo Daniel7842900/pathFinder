@@ -14,11 +14,47 @@
 }
 
 .node-visited {
-  background-color: blue;
+  animation-name: visitedNodes;
+  animation-duration: 1.5s;
+  animation-delay: 0s;
+  animation-iteration-count: 1;
+  animation-direction: normal;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+}
+
+@keyframes visitedNodes {
+  0% {
+    transform: scale(0.2);
+    background-color: blue;
+    border-radius: 100%;
+  }
+
+  25% {
+    transform: scale(0.4);
+    background-color: rgb(52, 158, 235);
+    border-radius: 100%;
+  }
+
+  50% {
+    transform: scale(0.6);
+    background-color: rgb(66, 164, 245);
+    border-radius: 100%;
+  }
+  75% {
+    transform: scale(0.8);
+    background-color: rgb(66, 245, 218);
+    border-radius: 100%;
+  }
+  100% {
+    transform: scale(1);
+    background-color: rgb(66, 245, 218);
+    border-radius: 100%;
+  }
 }
 
 .node-wall {
-  background-color: aquamarine;
+  background-color: grey;
 }
 
 .node-shortest {
