@@ -86,7 +86,7 @@ class PathFinder extends Component {
   }
 
   resetGrid() {
-    const grid = createGrid();
+    const { grid } = this.state;
     for (let row = 0; row < 15; row++) {
       const gridRow = [];
       for (let col = 0; col < 30; col++) {
@@ -103,7 +103,27 @@ class PathFinder extends Component {
             "node";
         }
       }
-      grid.push(gridRow);
+    }
+    this.setState({ grid });
+  }
+
+  resetWall() {
+    const grid = createGrid();
+    for (let row = 0; row < 15; row++) {
+      const gridRow = [];
+      for (let col = 0; col < 30; col++) {
+        const node = grid[row][col];
+        if (row === STARTNODEROW && col === STARTNODECOL) {
+          document.getElementById(`node-${node.row}-${node.col}`).className =
+            "node node-start";
+        } else if (row === ENDNODEROW && col === ENDNODECOL) {
+          document.getElementById(`node-${node.row}-${node.col}`).className =
+            "node node-end";
+        } else {
+          document.getElementById(`node-${node.row}-${node.col}`).className =
+            "node";
+        }
+      }
     }
     this.setState({ grid });
   }
@@ -147,6 +167,7 @@ class PathFinder extends Component {
               <Button
                 className="btn-margin-left btn-margin-right"
                 variant="outline-success"
+                onClick={() => this.resetWall()}
               >
                 Clear wall
               </Button>
