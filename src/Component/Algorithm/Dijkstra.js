@@ -61,14 +61,14 @@ export function dijkstra(grid, startNode, endNode) {
     return false;
   }
 
-  startNode.distance = 0;
+  startNode.gDistance = 0;
   const unvisitedNodes = getAllNodes(grid);
 
   // !! makes sure that it's boolean value. 0 falsy, other numbers truthy.
   // so if the length is not 0, keep go into the loop.
   while (!!unvisitedNodes.length) {
     sortNodes(unvisitedNodes);
-
+    //debugger;
     const closestNode = unvisitedNodes.shift();
 
     //If there is a wall, we skip it.(move to another node again.)
@@ -150,6 +150,11 @@ function getUnvisitedNeighborNodes(node, grid) {
 export function getShortestRoute(endNode) {
   const shortestRouteInOrder = [];
   let currentNode = endNode;
+
+  if (endNode.previousNode == null) {
+    return shortestRouteInOrder;
+  }
+
   while (currentNode != null) {
     shortestRouteInOrder.unshift(currentNode);
     currentNode = currentNode.previousNode;

@@ -96,10 +96,10 @@ class PathFinder extends Component {
     const { grid } = this.state;
     const startNode = grid[STARTNODEROW][STARTNODECOL];
     const endNode = grid[ENDNODEROW][ENDNODECOL];
-    debugger;
+    //debugger;
     const visitedNodes = AStar(grid, startNode, endNode);
-    console.log("this is visited nodes in visualize algorithm");
-    console.log(visitedNodes);
+    // console.log("this is visited nodes in visualize algorithm");
+    // console.log(visitedNodes);
     const shortestRoute = getShortestRoute(endNode);
     this.animateAStar(visitedNodes, shortestRoute);
   }

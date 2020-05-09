@@ -20,6 +20,8 @@ class Node extends Component {
       onMouseUp,
     } = this.props;
 
+    //var wallImg = new Img();
+
     const startEndNode = isEnd
       ? "node-end"
       : isStart

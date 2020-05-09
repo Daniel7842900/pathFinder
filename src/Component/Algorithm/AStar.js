@@ -32,6 +32,11 @@ export function AStar(grid, startNode, endNode) {
       continue;
     }
 
+    //If we are trapped by walls, return visitedNode.
+    if (closestNode.fCost === Infinity) {
+      return visitedNodes;
+    }
+
     closestNode.isVisited = true;
 
     visitedNodes.push(closestNode);
@@ -111,6 +116,11 @@ function getUnvisitedNeighborNodes(node, grid) {
 export function getShortestRoute(endNode) {
   const shortestRouteInOrder = [];
   let currentNode = endNode;
+
+  if (endNode.previousNode == null) {
+    return shortestRouteInOrder;
+  }
+
   while (currentNode != null) {
     shortestRouteInOrder.unshift(currentNode);
     currentNode = currentNode.previousNode;
