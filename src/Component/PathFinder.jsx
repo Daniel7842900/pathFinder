@@ -268,7 +268,7 @@ const createNodeObject = (row, col) => {
     isEnd: row === 7 && col === 20,
     isVisited: false,
     isWall: false,
-    distance: Infinity,
+    gDistance: Infinity,
     neighborNodes: [],
     previousNode: null,
     fCost: Infinity,

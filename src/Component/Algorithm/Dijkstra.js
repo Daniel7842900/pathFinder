@@ -77,7 +77,7 @@ export function dijkstra(grid, startNode, endNode) {
     }
 
     //If we are trapped by walls, return visitedNode.
-    if (closestNode.distance === Infinity) {
+    if (closestNode.gDistance === Infinity) {
       return visitedNodes;
     }
 
@@ -95,7 +95,7 @@ export function dijkstra(grid, startNode, endNode) {
 }
 
 function sortNodes(unvisitedNodes) {
-  unvisitedNodes.sort((nodeA, nodeB) => nodeA.distance - nodeB.distance);
+  unvisitedNodes.sort((nodeA, nodeB) => nodeA.gDistance - nodeB.gDistance);
 }
 
 function getAllNodes(grid) {
@@ -115,7 +115,7 @@ function updateDistance(node, grid) {
 
   for (const neighbor of distanceArray) {
     //1 can be the weight of edges. we are using 1 because the weight of edge is 1.
-    neighbor.distance = node.distance + 1;
+    neighbor.gDistance = node.gDistance + 1;
     neighbor.previousNode = node;
   }
 

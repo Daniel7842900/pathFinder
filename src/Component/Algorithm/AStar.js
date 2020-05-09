@@ -1,11 +1,21 @@
+/* A Star algorithm
+A Star algorithm is similar to dijkstra algorithm.
+The difference is A Star algorithm has heuristic distance.
+heuristic distance is estimation distance between the current node
+and the target(end node).
+*/
 export function AStar(grid, startNode, endNode) {
-  // debugger;
+  // visitedNodes can be considered as close set
   const visitedNodes = [];
+
+  // unVisitedNodes can be considered as open set.
   var unVisitedNodes = [];
 
+  // At start node, fCost(total cost, which is g distance + h distance)
+  // can be set as 0.
   startNode.fCost = 0;
   startNode.hDistance = 0;
-  startNode.distance = 0;
+  startNode.gDistance = 0;
 
   unVisitedNodes = getAllNodes(grid);
 
@@ -13,6 +23,7 @@ export function AStar(grid, startNode, endNode) {
     sortNodes(unVisitedNodes);
     const closestNode = unVisitedNodes.shift();
 
+    //if closest node is end node, finish A star algorithm.
     if (closestNode === endNode) {
       return visitedNodes;
     }
@@ -37,13 +48,12 @@ function updateDistance(node, endNode, grid) {
   const distanceArray = getUnvisitedNeighborNodes(node, grid);
 
   for (const neighbor of distanceArray) {
-    //debugger;
     let neighborHDistance = getHeuristicDistance(neighbor, endNode);
     console.log("this is heuristic distance");
     console.log(neighborHDistance);
     //1 can be the weight of edges. we are using 1 because the weight of edge is 1.
-    neighbor.distance = node.distance + 1;
-    neighbor.fCost = neighborHDistance + neighbor.distance;
+    neighbor.gDistance = node.gDistance + 1;
+    neighbor.fCost = neighborHDistance + neighbor.gDistance;
     neighbor.previousNode = node;
   }
 
@@ -53,10 +63,7 @@ function updateDistance(node, endNode, grid) {
 //We use Manhattan distance to calculate the heuristics distance.
 //Manhattan distance is only when we can move in four directions.(up, down, left, right)
 function getHeuristicDistance(node, endNode) {
-  //debugger;
   const { row, col } = node;
-  console.log(row);
-  console.log(col);
   const neighborHDistance =
     Math.abs(node.row - endNode.row) + Math.abs(node.col - endNode.col);
 
