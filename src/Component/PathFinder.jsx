@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Node from "./Node/Node";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { dijkstra, getShortestRoute } from "./Algorithm/Dijkstra";
+import { AStar } from "./Algorithm/AStar";
 import { Navbar, Nav, NavDropdown, Button } from "react-bootstrap";
 
 import "./PathFinder.css";
@@ -60,6 +61,26 @@ class PathFinder extends Component {
     }
   }
 
+  animateAStar(visitedNodes, shortestRoute) {
+    for (let i = 0; i <= visitedNodes.length; i++) {
+      if (i === visitedNodes.length) {
+        //we need this setTimeout because we need to maually set the time
+        //after node-visited setTimeout. So we are setting the last part with
+        //this setTimeout.
+        setTimeout(() => {
+          this.animateShortestRoute(shortestRoute);
+        }, 30 * i);
+        return;
+      }
+
+      setTimeout(() => {
+        const node = visitedNodes[i];
+        document.getElementById(`node-${node.row}-${node.col}`).className =
+          "node node-visited";
+      }, 30 * i);
+    }
+  }
+
   //This is the function that actually animates the line.
   animateShortestRoute(shortestRoute) {
     for (let i = 0; i < shortestRoute.length; i++) {
@@ -75,10 +96,22 @@ class PathFinder extends Component {
     const { grid } = this.state;
     const startNode = grid[STARTNODEROW][STARTNODECOL];
     const endNode = grid[ENDNODEROW][ENDNODECOL];
-    const visitedNodes = dijkstra(grid, startNode, endNode);
+    debugger;
+    const visitedNodes = AStar(grid, startNode, endNode);
+    console.log("this is visited nodes in visualize algorithm");
+    console.log(visitedNodes);
     const shortestRoute = getShortestRoute(endNode);
-    this.animateDijkstra(visitedNodes, shortestRoute);
+    this.animateAStar(visitedNodes, shortestRoute);
   }
+
+  // visualizeAlgorithm() {
+  //   const { grid } = this.state;
+  //   const startNode = grid[STARTNODEROW][STARTNODECOL];
+  //   const endNode = grid[ENDNODEROW][ENDNODECOL];
+  //   const visitedNodes = dijkstra(grid, startNode, endNode);
+  //   const shortestRoute = getShortestRoute(endNode);
+  //   this.animateDijkstra(visitedNodes, shortestRoute);
+  // }
 
   componentDidMount() {
     const grid = createGrid();
@@ -238,6 +271,8 @@ const createNodeObject = (row, col) => {
     distance: Infinity,
     neighborNodes: [],
     previousNode: null,
+    fCost: Infinity,
+    hDistance: Infinity,
   };
 };
 
