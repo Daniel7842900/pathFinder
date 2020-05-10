@@ -18,6 +18,7 @@ class PathFinder extends Component {
     this.state = {
       grid: [],
       mouseIsPressed: false,
+      selectedAlgorithm: "dijkstra",
     };
   }
 
@@ -97,11 +98,32 @@ class PathFinder extends Component {
     const startNode = grid[STARTNODEROW][STARTNODECOL];
     const endNode = grid[ENDNODEROW][ENDNODECOL];
     //debugger;
-    const visitedNodes = AStar(grid, startNode, endNode);
-    // console.log("this is visited nodes in visualize algorithm");
-    // console.log(visitedNodes);
-    const shortestRoute = getShortestRoute(endNode);
-    this.animateAStar(visitedNodes, shortestRoute);
+
+    switch (this.state.selectedAlgorithm) {
+      case "dijkstra":
+        var visitedNodes = dijkstra(grid, startNode, endNode);
+        var shortestRoute = getShortestRoute(endNode);
+        this.animateDijkstra(visitedNodes, shortestRoute);
+        break;
+
+      case "AStar":
+        var visitedNodes = AStar(grid, startNode, endNode);
+
+        var shortestRoute = getShortestRoute(endNode);
+        this.animateAStar(visitedNodes, shortestRoute);
+        break;
+    }
+  }
+
+  getOption(key) {
+    if (key === "1") {
+      this.setState({ selectedAlgorithm: "dijkstra" });
+    } else if (key === "2") {
+      this.setState({ selectedAlgorithm: "AStar" });
+    }
+    console.log("this is key");
+    console.log(key);
+    //console.log(this.state.selectedAlgorithm);
   }
 
   // visualizeAlgorithm() {
@@ -180,8 +202,25 @@ class PathFinder extends Component {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto ml-auto">
-              <NavDropdown title="Algorithms" id="basic-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">Dijkstra</NavDropdown.Item>
+              <NavDropdown
+                onSelect={(e) => this.getOption(e)}
+                title="Algorithms"
+                id="basic-nav-dropdown"
+              >
+                <NavDropdown.Item
+                  eventKey={"1"}
+                  //onSelect={(e) => this.getOption(e)}
+
+                  //onSelect={() => this.getOption()}
+                >
+                  Dijkstra
+                </NavDropdown.Item>
+                <NavDropdown.Item
+                  eventKey={"2"}
+                  //onSelect={(key) => this.getOption(key)}
+                >
+                  A*
+                </NavDropdown.Item>
               </NavDropdown>
               <Button
                 className="btn-margin-left btn-margin-right"

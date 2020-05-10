@@ -54,8 +54,8 @@ function updateDistance(node, endNode, grid) {
 
   for (const neighbor of distanceArray) {
     let neighborHDistance = getHeuristicDistance(neighbor, endNode);
-    console.log("this is heuristic distance");
-    console.log(neighborHDistance);
+    // console.log("this is heuristic distance");
+    // console.log(neighborHDistance);
     //1 can be the weight of edges. we are using 1 because the weight of edge is 1.
     neighbor.gDistance = node.gDistance + 1;
     neighbor.fCost = neighborHDistance + neighbor.gDistance;
