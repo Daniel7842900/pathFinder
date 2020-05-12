@@ -55,6 +55,7 @@ class PathFinder extends Component {
       }
 
       setTimeout(() => {
+        //debugger;
         const node = visitedNodes[i];
         document.getElementById(`node-${node.row}-${node.col}`).className =
           "node node-visited";
@@ -145,8 +146,33 @@ class PathFinder extends Component {
     for (let row = 0; row < 15; row++) {
       const gridRow = [];
       for (let col = 0; col < 30; col++) {
-        gridRow.push(createNodeObject(row, col));
         const node = grid[row][col];
+        // const newNode = {
+        //   ...node,
+        //   isWall: false,
+        //   isVisited: false,
+        // };
+        if (node.isWall) {
+          node.isWall = false;
+        }
+        if (node.isVisited) {
+          node.isVisited = false;
+        }
+        if (node.gDistance !== Infinity) {
+          node.gDistance = Infinity;
+        }
+        if (node.neighborNodes.length !== 0) {
+          node.neighborNodes = [];
+        }
+        if (node.previousNode !== null) {
+          node.previousNode = null;
+        }
+        if (node.fCost !== Infinity) {
+          node.fCost = Infinity;
+        }
+        if (node.hDistance !== Infinity) {
+          node.hDistance = Infinity;
+        }
         if (row === STARTNODEROW && col === STARTNODECOL) {
           document.getElementById(`node-${node.row}-${node.col}`).className =
             "node node-start";
@@ -155,7 +181,7 @@ class PathFinder extends Component {
             "node node-end";
         } else {
           document.getElementById(`node-${node.row}-${node.col}`).className =
-            "node";
+            "node ";
         }
       }
     }
@@ -176,7 +202,7 @@ class PathFinder extends Component {
             "node node-end";
         } else {
           document.getElementById(`node-${node.row}-${node.col}`).className =
-            "node";
+            "node ";
         }
       }
     }
@@ -244,9 +270,9 @@ class PathFinder extends Component {
                 Clear wall
               </Button>
               <NavDropdown title="Speed" id="basic-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">Fast</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">Normal</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">Slow</NavDropdown.Item>
+                <NavDropdown.Item>Fast</NavDropdown.Item>
+                <NavDropdown.Item>Normal</NavDropdown.Item>
+                <NavDropdown.Item>Slow</NavDropdown.Item>
               </NavDropdown>
             </Nav>
           </Navbar.Collapse>
@@ -334,5 +360,35 @@ const getNewGridWall = (grid, row, col) => {
 
   return newGrid;
 };
+
+// const getNewGrid = (grid) => {
+//   const newGrid = grid.slice();
+//   const node = newGrid[row][col];
+//   // var img = require(`./icons/walls.png`);
+//   // img.setAttribute(
+//   //   "src",
+//   //   "/Users/daniellim/Desktop/daniel/my-app/src/Component/icons/brickwall.png"
+//   // );
+//   const newNode = {
+//     ...node,
+//     isWall: false,
+//   };
+
+//   if (row === STARTNODEROW && col === STARTNODECOL) {
+//     document.getElementById(`node-${node.row}-${node.col}`).className =
+//       "node node-start";
+//   } else if (row === ENDNODEROW && col === ENDNODECOL) {
+//     document.getElementById(`node-${node.row}-${node.col}`).className =
+//       "node node-end";
+//   } else {
+//     document.getElementById(`node-${node.row}-${node.col}`).className = "node";
+//   }
+//   // document
+//   //   .getElementById(`node-${newNode.row}-${newNode.col}`)
+//   //   .appendChild(img);
+//   newGrid[row][col] = newNode;
+
+//   return newGrid;
+// };
 
 export default PathFinder;
