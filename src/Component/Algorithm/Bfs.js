@@ -10,12 +10,29 @@ and adds direct neighbor nodes into the queue again.
 BFS is good for finding shortest path on unweighted graphs.
 */
 export function Bfs(grid, startNode, endNode) {
-  const unVisitedNodes = [];
   const visitedNodes = [];
+  var q = [];
+  q.push(startNode);
 
-  unVisitedNodes = getAllNodes(grid);
+  while (!!q.length) {
+    var currentNode = q.shift();
+    currentNode.isVisited = true;
 
-  while (!!unVisitedNodes.length) {}
+    var neighborNodes = getUnvisitedNeighborNodes(currentNode, grid);
+
+    if (currentNode.isWall === true) {
+      continue;
+    }
+
+    for (const neighbor of neighborNodes) {
+      q.push(neighbor);
+      visitedNodes.push(neighbor);
+    }
+
+    if (currentNode === endNode) {
+      return visitedNodes;
+    }
+  }
 }
 
 function getAllNodes(grid) {
@@ -28,7 +45,7 @@ function getAllNodes(grid) {
   return allNodes;
 }
 
-function getUnvisitedNodes(node, grid) {
+function getUnvisitedNeighborNodes(node, grid) {
   const neighborNodes = [];
   var unVisitedNeighborNodes = [];
   const { row, col } = node;
@@ -50,4 +67,20 @@ function getUnvisitedNodes(node, grid) {
   );
 
   return unVisitedNeighborNodes;
+}
+
+export function getShortestRoute(endNode) {
+  const shortestRouteInOrder = [];
+  let currentNode = endNode;
+
+  if (endNode.previousNode == null) {
+    return shortestRouteInOrder;
+  }
+
+  while (currentNode != null) {
+    shortestRouteInOrder.unshift(currentNode);
+    currentNode = currentNode.previousNode;
+  }
+
+  return shortestRouteInOrder;
 }
