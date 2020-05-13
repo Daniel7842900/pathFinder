@@ -30,6 +30,9 @@ export function Bfs(grid, startNode, endNode) {
     var neighborNodes = getUnvisitedNeighborNodes(currentNode, grid);
 
     for (const neighbor of neighborNodes) {
+      if (neighbor.isWall === true) {
+        continue;
+      }
       q.push(neighbor);
       visitedNodes.push(neighbor);
       neighbor.isVisited = true;
