@@ -13,24 +13,30 @@ export function Bfs(grid, startNode, endNode) {
   const visitedNodes = [];
   var q = [];
   q.push(startNode);
+  visitedNodes.push(startNode);
+  startNode.isVisited = true;
 
   while (!!q.length) {
     var currentNode = q.shift();
-    currentNode.isVisited = true;
-
-    var neighborNodes = getUnvisitedNeighborNodes(currentNode, grid);
 
     if (currentNode.isWall === true) {
       continue;
     }
 
+    // if (currentNode === endNode) {
+    //   return visitedNodes;
+    // }
+
+    var neighborNodes = getUnvisitedNeighborNodes(currentNode, grid);
+
     for (const neighbor of neighborNodes) {
       q.push(neighbor);
       visitedNodes.push(neighbor);
-    }
-
-    if (currentNode === endNode) {
-      return visitedNodes;
+      neighbor.isVisited = true;
+      neighbor.previousNode = currentNode;
+      if (neighbor === endNode) {
+        return visitedNodes;
+      }
     }
   }
 }

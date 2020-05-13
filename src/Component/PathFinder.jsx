@@ -3,6 +3,7 @@ import Node from "./Node/Node";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { dijkstra, getShortestRoute } from "./Algorithm/Dijkstra";
 import { AStar } from "./Algorithm/AStar";
+import { Bfs } from "./Algorithm/Bfs";
 import { Navbar, Nav, NavDropdown, Button } from "react-bootstrap";
 
 import "./PathFinder.css";
@@ -83,14 +84,36 @@ class PathFinder extends Component {
     }
   }
 
+  animateBfs(visitedNodes, shortestRoute) {
+    //debugger;
+    for (let i = 0; i <= visitedNodes.length; i++) {
+      if (i === visitedNodes.length) {
+        //we need this setTimeout because we need to maually set the time
+        //after node-visited setTimeout. So we are setting the last part with
+        //this setTimeout.
+        setTimeout(() => {
+          this.animateShortestRoute(shortestRoute);
+        }, 30 * i);
+        return;
+      }
+
+      setTimeout(() => {
+        const node = visitedNodes[i];
+        document.getElementById(`node-${node.row}-${node.col}`).className =
+          "node node-visited";
+      }, 30 * i);
+    }
+  }
+
   //This is the function that actually animates the line.
   animateShortestRoute(shortestRoute) {
+    //debugger;
     for (let i = 0; i < shortestRoute.length; i++) {
       setTimeout(() => {
         const node = shortestRoute[i];
         document.getElementById(`node-${node.row}-${node.col}`).className =
           "node node-shortest";
-      }, 40 * i);
+      }, 50 * i);
     }
   }
 
@@ -113,6 +136,14 @@ class PathFinder extends Component {
         var shortestRoute = getShortestRoute(endNode);
         this.animateAStar(visitedNodes, shortestRoute);
         break;
+
+      case "Bfs":
+        debugger;
+        var visitedNodes = Bfs(grid, startNode, endNode);
+
+        var shortestRoute = getShortestRoute(endNode);
+        this.animateBfs(visitedNodes, shortestRoute);
+        break;
     }
   }
 
@@ -121,6 +152,8 @@ class PathFinder extends Component {
       this.setState({ selectedAlgorithm: "dijkstra" });
     } else if (key === "2") {
       this.setState({ selectedAlgorithm: "AStar" });
+    } else if (key === "3") {
+      this.setState({ selectedAlgorithm: "Bfs" });
     }
     console.log("this is key");
     console.log(key);
@@ -246,6 +279,12 @@ class PathFinder extends Component {
                   //onSelect={(key) => this.getOption(key)}
                 >
                   A*
+                </NavDropdown.Item>
+                <NavDropdown.Item
+                  eventKey={"3"}
+                  //onSelect={(key) => this.getOption(key)}
+                >
+                  BFS
                 </NavDropdown.Item>
               </NavDropdown>
               <Button
